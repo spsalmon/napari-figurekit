@@ -11,7 +11,7 @@ Internal tool for the lab; not on PyPI.
 
 ## Install
 
-You need a Python environment with napari (≥ 0.6, tested with 0.7.1). In that environment:
+You need a Python environment with Python ≥ 3.10 (tested up to 3.14) and napari (≥ 0.6, tested with 0.7.1 and 0.10.0). In that environment:
 
 ```bash
 pip install git+<repo-url>          # or, from a local copy:  pip install -e .
@@ -175,6 +175,10 @@ been wrong:
   `layer.units`). Figure Kit sets `layer.units` on calibration — on images *and* on its helper
   layers (points, shapes, vectors), because napari ignores units when layers disagree. All of
   this goes through `core/napari_compat.py`; only real fields of the installed version are set.
+  Since napari 0.9 the overlay lives at `viewer.canvas.overlays["scale_bar"]` (`viewer.scale_bar`
+  is a deprecated alias); the adapter uses the new location when it exists.
+- **No upper Python bound.** `requires-python = ">=3.10"`: capping it only blocks installs on new
+  Python releases (e.g. 3.14) even when everything works.
 - **Reference layer.** The scale bar (and arrow mapping) uses the first ticked layer of the
   Export tab (X pixel size); if none is ticked, the first visible image layer.
 - **Sidecar name** is `<image file name>.json` (`panel.png.json`), so it is unambiguous even
@@ -212,7 +216,7 @@ been wrong:
   *after* placing points or arrows, they do not move with the image — calibrate first.
 - The napari canvas scale bar and arrows are previews; only the exported pixels are exact.
 - Very large lazy (dask) images are sliced in the GUI thread before the export worker starts.
-- Only tested with napari 0.7.1; 0.6 should work through the version adapter but is untested.
+- Tested with napari 0.7.1 (Python 3.12) and 0.10.0 (Python 3.14); 0.6 should work through the version adapter but is untested.
 
 ## Future ideas
 

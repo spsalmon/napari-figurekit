@@ -15,7 +15,7 @@ and record the decision in `README.md` under "Design decisions".
 
 ## 1. Tech stack and constraints
 
-- Python 3.10–3.13. Target napari **0.7.x** but keep working on **≥ 0.6** (see §8 "Version adapter").
+- Python ≥ 3.10 (no upper bound; tested on 3.14). Target napari **0.7.x–0.10.x** but keep working on **≥ 0.6** (see §8 "Version adapter").
 - Plugin engine: **npe2** (`napari.yaml` manifest). No npe1 hooks.
 - UI: `qtpy` widgets (QWidget + QTabWidget + QFormLayout). `magicgui` is allowed for small sub-forms,
   but the main dock widget is a single `QWidget` subclass.

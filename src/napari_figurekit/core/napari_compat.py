@@ -63,8 +63,23 @@ def _position_value(overlay: Any, name: str) -> Any:
     return name
 
 
+def get_scale_bar_overlay(viewer: Any) -> Any:
+    """Return the viewer's scale-bar overlay model, or ``None``.
+
+    napari >= 0.9 keeps it in ``viewer.canvas.overlays["scale_bar"]`` (``viewer.scale_bar``
+    is a deprecated alias there); older versions only have ``viewer.scale_bar``.
+    """
+    overlays = getattr(getattr(viewer, "canvas", None), "overlays", None)
+    if overlays is not None:
+        try:
+            return overlays["scale_bar"]
+        except (KeyError, TypeError):
+            pass
+    return getattr(viewer, "scale_bar", None)
+
+
 def apply_scale_bar(viewer: Any, settings: Any, world_unit: str | None) -> list[str]:
-    """Mirror :class:`~napari_figurekit.state.ScaleBarSettings` on ``viewer.scale_bar``.
+    """Mirror :class:`~napari_figurekit.state.ScaleBarSettings` on the scale-bar overlay.
 
     The canvas overlay is only a preview; the exported bar is drawn by
     :mod:`napari_figurekit.core.scalebar`.
@@ -81,7 +96,7 @@ def apply_scale_bar(viewer: Any, settings: Any, world_unit: str | None) -> list[
     list of str
         Names of the fields that were set.
     """
-    sb = getattr(viewer, "scale_bar", None)
+    sb = get_scale_bar_overlay(viewer)
     if sb is None:
         return []
     done = []

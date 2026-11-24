@@ -5,6 +5,7 @@ import pytest
 from PIL import Image
 
 from napari_figurekit._widget import FigureKitWidget
+from napari_figurekit.core.napari_compat import get_scale_bar_overlay
 from napari_figurekit.state import FigureKitState, last_state_path
 
 
@@ -285,8 +286,9 @@ def test_scale_bar_report_and_overlay(kit):
     sb.length_spin.setValue(10)
     assert sb.report_label.text() == "10 µm = 38.46 px → 38 px (9.88 µm)"
     assert "red" in sb.report_label.styleSheet()
-    assert viewer.scale_bar.visible
-    assert viewer.scale_bar.length == pytest.approx(10)
+    overlay = get_scale_bar_overlay(viewer)
+    assert overlay.visible
+    assert overlay.length == pytest.approx(10)
     assert sb.suggest() in (10.0, 20.0)
 
 
