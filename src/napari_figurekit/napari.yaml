@@ -1,0 +1,17 @@
+name: napari-figurekit
+display_name: Figure Kit
+contributions:
+  commands:
+    - id: napari-figurekit.widget
+      python_name: napari_figurekit._widget:FigureKitWidget
+      title: Open Figure Kit
+    - id: napari-figurekit.sample_cells3d
+      python_name: napari_figurekit._sample_data:cells3d_sample
+      title: Load calibrated cells3d sample
+  widgets:
+    - command: napari-figurekit.widget
+      display_name: Figure Kit
+  sample_data:
+    - command: napari-figurekit.sample_cells3d
+      key: cells3d
+      display_name: cells3d (calibrated, 2 channels)

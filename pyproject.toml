@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "napari-figurekit"
+version = "0.1.0"
+description = "Turn multichannel microscopy images into publication-ready figure panels in napari."
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+classifiers = [
+    "Framework :: napari",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+]
+dependencies = [
+    "napari>=0.6",
+    "numpy",
+    "qtpy",
+    "magicgui",
+    "tifffile",
+    "pillow>=10.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-qt",
+    "napari[pyqt6]",
+    "scikit-image",
+    "dask",
+    "ruff",
+]
+
+[project.entry-points."napari.manifest"]
+napari-figurekit = "napari_figurekit:napari.yaml"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "T20"]
+ignore = ["B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["T20"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
